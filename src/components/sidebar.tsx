@@ -23,9 +23,7 @@ const ICONS: Record<string, string> = {
 function SvgIcon({ path }: { path: string }) {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-      {path.split(' M').map((p, i) => (
-        <path key={i} d={i === 0 ? p : 'M' + p} />
-      ))}
+      <path d={path} />
     </svg>
   );
 }

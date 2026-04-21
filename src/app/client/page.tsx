@@ -55,7 +55,7 @@ export default async function ClientPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginBottom: "2rem" }}>
             {[
               { label: "My Projects", value: projects.length, icon: "M3 3h18v18H3zM3 9h18M9 21V9", color: "var(--accent)", bg: "var(--accent-soft)" },
-              { label: "Active", value: activeProjects, icon: "M12 2v4M12 18v4M4.93 4.93l2.83 2.83", color: "var(--warning)", bg: "var(--warning-soft)" },
+              { label: "Active", value: activeProjects, icon: "M5 3v18l15-9-15-9z", color: "var(--warning)", bg: "var(--warning-soft)" },
               { label: "Tasks Done", value: `${totalDone}/${totalTasks}`, icon: "M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3", color: "var(--success)", bg: "var(--success-soft)" },
             ].map((s, i) => (
               <div key={s.label} className="animate-fade-up" style={{ animationDelay: `${i * 0.07}s` }}>
@@ -64,7 +64,7 @@ export default async function ClientPage() {
                     <span style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--muted)" }}>{s.label}</span>
                     <div style={{ width: 32, height: 32, borderRadius: 8, background: s.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={s.color} strokeWidth="2">
-                        {s.icon.split(' M').map((p, j) => <path key={j} d={j === 0 ? p : 'M' + p} strokeLinecap="round" />)}
+                        <path d={s.icon} strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>

@@ -18,9 +18,15 @@ export default function FileUploader({ projectId }: { projectId: string }) {
     setUploading(true);
     setError(null);
     setSuccess(false);
-
     const bucketName = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET?.trim() || "project-files";
-    const supabase = createSupabaseBrowserClient();
+    let supabase: any;
+    try {
+      supabase = createSupabaseBrowserClient();
+    } catch (err) {
+      setError("Upload unavailable: missing Supabase configuration on the host.");
+      setUploading(false);
+      return;
+    }
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
     if (userError || !user) {

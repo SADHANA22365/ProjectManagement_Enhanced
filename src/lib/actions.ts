@@ -95,9 +95,28 @@ export const updateUserProfile = async (formData: FormData) => {
   if (phone) updates.phone = phone;
   if (bio) updates.bio = bio;
 
-  const { error } = await supabase.from("users").update(updates).eq("id", auth.user.id);
+  // Try updating the users table; if a column referenced in `updates` doesn't exist
+  // (e.g., `phone` column not present in some schemas), strip that key and retry.
+  let { error } = await supabase.from("users").update(updates).eq("id", auth.user.id);
   if (error) {
-    redirect(`${redirectTo}?error=${encodeURIComponent(error.message)}`);
+    const msg = String(error.message || "").toLowerCase();
+    const missingColumnMatch = msg.match(/could not find the '([a-z0-9_]+)' column/);
+    if (missingColumnMatch && missingColumnMatch[1]) {
+      const col = missingColumnMatch[1];
+      // remove the missing column from updates and retry
+      if (col in updates) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete updates[col];
+        const retry = await supabase.from("users").update(updates).eq("id", auth.user.id);
+        if (retry.error) {
+          redirect(`${redirectTo}?error=${encodeURIComponent(retry.error.message)}`);
+        }
+      } else {
+        redirect(`${redirectTo}?error=${encodeURIComponent(error.message)}`);
+      }
+    } else {
+      redirect(`${redirectTo}?error=${encodeURIComponent(error.message)}`);
+    }
   }
 
   // Update auth email if changed

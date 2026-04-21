@@ -26,7 +26,7 @@ export default async function AdminPage() {
 
   const statCards = [
     { label: "Total Projects", value: counts.total, icon: "M3 3h18v18H3zM3 9h18M9 21V9", color: "var(--accent)", bg: "var(--accent-soft)" },
-    { label: "In Progress", value: counts.active, icon: "M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83", color: "var(--warning)", bg: "var(--warning-soft)" },
+    { label: "In Progress", value: counts.active, icon: "M5 3v18l15-9-15-9z", color: "var(--warning)", bg: "var(--warning-soft)" },
     { label: "Completed", value: counts.completed, icon: "M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3", color: "var(--success)", bg: "var(--success-soft)" },
     { label: "Delayed", value: counts.total - counts.active - counts.completed, icon: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z M12 9v4 M12 17h.01", color: "var(--danger)", bg: "var(--danger-soft)" },
   ];
@@ -61,7 +61,7 @@ export default async function AdminPage() {
                     <p style={{ fontSize: "0.8125rem", fontWeight: 600, color: "var(--muted)" }}>{stat.label}</p>
                     <div style={{ width: 34, height: 34, borderRadius: 10, background: stat.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={stat.color} strokeWidth="2">
-                        {stat.icon.split(' M').map((p, j) => <path key={j} d={j === 0 ? p : 'M' + p} strokeLinecap="round" strokeLinejoin="round" />)}
+                        <path d={stat.icon} strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>

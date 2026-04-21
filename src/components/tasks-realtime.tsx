@@ -14,19 +14,26 @@ export default function TasksRealtime({
   const router = useRouter();
 
   useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    const channel = supabase
-      .channel(`project-tasks-${projectId}`)
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "tasks", filter: `project_id=eq.${projectId}` },
-        () => router.refresh(),
-      )
-      .subscribe();
+    try {
+      const supabase = createSupabaseBrowserClient();
+      const channel = supabase
+        .channel(`project-tasks-${projectId}`)
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "tasks", filter: `project_id=eq.${projectId}` },
+          () => router.refresh(),
+        )
+        .subscribe();
 
-    return () => {
-      void supabase.removeChannel(channel);
-    };
+      return () => {
+        try {
+          void supabase.removeChannel(channel);
+        } catch {}
+      };
+    } catch (err) {
+      // Missing env; skip realtime subscription to avoid client crash
+      return;
+    }
   }, [projectId, router]);
 
   return <div>{children}</div>;
