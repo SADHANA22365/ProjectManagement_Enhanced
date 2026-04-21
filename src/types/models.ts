@@ -20,23 +20,23 @@ export type TaskWithProject = TaskRow & {
 };
 
 export type UpdateWithMeta = UpdateRow & {
-  users?: Pick<UserProfile, "name" | "role"> | null;
+  users?: Pick<UserProfile, "name" | "role" | "email"> | null;
   projects?: Pick<ProjectRow, "name" | "status"> | null;
   comments?: (CommentRow & {
-    users?: Pick<UserProfile, "name" | "role"> | null;
+    users?: Pick<UserProfile, "name" | "role" | "email"> | null;
   })[];
 };
 
 export type FileWithMeta = FileRow & {
-  users?: Pick<UserProfile, "name" | "role"> | null;
+  users?: Pick<UserProfile, "name" | "role" | "email"> | null;
   projects?: Pick<ProjectRow, "name"> | null;
 };
 
 export type ClientNoteWithUser = ClientNoteRow & {
-  users?: Pick<UserProfile, "name" | "role"> | null;
+  users?: Pick<UserProfile, "name" | "role" | "email"> | null;
 };
 
 export type TaskStatusAuditWithUser = TaskStatusAuditRow & {
   tasks?: Pick<TaskRow, "title"> | null;
-  users?: Pick<UserProfile, "name" | "role"> | null;
+  users?: Pick<UserProfile, "name" | "role" | "email"> | null;
 };

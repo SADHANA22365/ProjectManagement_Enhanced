@@ -34,25 +34,25 @@ export const fetchProjectDetails = async (projectId: string) => {
 
   const updates = await supabase
     .from("updates")
-    .select("*, users(name, role), comments(*, users(name, role))")
+    .select("*, users(name, role, email), comments(*, users(name, role, email))")
     .eq("project_id", projectId)
     .order("timestamp", { ascending: false });
 
   const files = await supabase
     .from("files")
-    .select("*, users(name, role)")
+    .select("*, users(name, role, email)")
     .eq("project_id", projectId)
     .order("created_at", { ascending: false });
 
   const clientNotes = await supabase
     .from("client_notes")
-    .select("*, users(name, role)")
+    .select("*, users(name, role, email)")
     .eq("project_id", projectId)
     .order("created_at", { ascending: false });
 
   const audit = await supabase
     .from("task_status_audit")
-    .select("*, tasks(title), users(name, role)")
+    .select("*, tasks(title), users(name, role, email)")
     .eq("project_id", projectId)
     .order("changed_at", { ascending: false });
 
@@ -76,7 +76,7 @@ export const fetchRecentAudit = async () => {
   const supabase: any = await createSupabaseServerClient();
   return supabase
     .from("task_status_audit")
-    .select("*, tasks(title), users(name, role)")
+    .select("*, tasks(title), users(name, role, email)")
     .order("changed_at", { ascending: false })
     .limit(8);
 };

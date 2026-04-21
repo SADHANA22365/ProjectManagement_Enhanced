@@ -30,7 +30,7 @@ export default async function AdminFilesPage() {
   const supabase = await createSupabaseServerClient();
   const { data } = await (supabase as any)
     .from("files")
-    .select("*, users(name, role), projects(name)")
+    .select("*, users(name, role, email), projects(name)")
     .order("created_at", { ascending: false });
 
   const files = (data ?? []) as FileWithMeta[];

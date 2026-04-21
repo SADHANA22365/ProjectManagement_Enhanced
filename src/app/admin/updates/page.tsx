@@ -19,7 +19,7 @@ export default async function AdminUpdatesPage() {
   const supabase = await createSupabaseServerClient();
   const { data } = await (supabase as any)
     .from("updates")
-    .select("*, users(name, role), projects(name, status), comments(*, users(name, role))")
+    .select("*, users(name, role, email), projects(name, status), comments(*, users(name, role, email))")
     .order("timestamp", { ascending: false })
     .limit(50);
 
