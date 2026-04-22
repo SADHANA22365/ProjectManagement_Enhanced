@@ -28,10 +28,24 @@ export default async function AdminProjectDetailsPage({
   const { profile } = await requireRole("admin");
   const userProfile = profile ?? { name: null, email: null, role: "admin" as const };
   const { id } = await params;
-  const details = await fetchProjectDetails(id);
+  let details;
+  try {
+    details = await fetchProjectDetails(id);
+  } catch (err: any) {
+    return (
+      <div style={{ padding: 40 }}>
+        <div className="alert alert-error">Error loading project: {String(err?.message || err)}</div>
+        <pre style={{ whiteSpace: "pre-wrap", marginTop: 12 }}>{JSON.stringify({ error: String(err?.message || err) }, null, 2)}</pre>
+      </div>
+    );
+  }
 
   const project = details.project.data;
-  if (!project) notFound();
+  if (!project) return (
+    <div style={{ padding: 40 }}>
+      <div className="alert alert-error">Project not found.</div>
+    </div>
+  );
 
   const tasks = (details.tasks.data ?? []) as TaskRow[];
   const updates = (details.updates.data ?? []) as UpdateWithMeta[];
