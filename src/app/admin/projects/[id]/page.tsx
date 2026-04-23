@@ -155,14 +155,15 @@ export default async function AdminProjectDetailsPage({
                             )}
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
-                            <form action={updateTaskStatus}>
+                            <form action={updateTaskStatus} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                               <input type="hidden" name="id" value={task.id} />
                               <input type="hidden" name="project_id" value={id} />
-                              <select name="status" defaultValue={task.status} onChange={e => e.target.form?.requestSubmit()} className="input" style={{ width: "auto", fontSize: "0.75rem", padding: "0.25rem 1.75rem 0.25rem 0.5rem" }}>
+                              <select name="status" defaultValue={task.status} className="input" style={{ width: "auto", fontSize: "0.75rem", padding: "0.25rem 1.75rem 0.25rem 0.5rem" }}>
                                 <option>To Do</option>
                                 <option>In Progress</option>
                                 <option>Completed</option>
                               </select>
+                              <button type="submit" className="btn btn-primary btn-sm" style={{ flexShrink: 0 }}>Update</button>
                             </form>
                           </div>
                         </div>
